@@ -1,0 +1,24 @@
+claims:
+  - id: E-RFC9180
+    claim: HPKE DHKEM, labeled schedule, modes, nonce and exporter semantics
+    source: https://www.rfc-editor.org/rfc/rfc9180.txt
+    sources: [https://www.rfc-editor.org/rfc/rfc9180.txt]
+    applicability: "RFC 9180 X25519 HPKE profile and context semantics"
+    sha256: f45a8b7c30231b26d668b1e8168074e5ab514b174d656b67e859895117f1f8f6
+    status: verified-content-candidate-archive
+    independent_check: RFC Appendix A.1 and dynamic four-mode tests
+  - id: E-CRYPTOGRAPHY
+    claim: X25519 and AEAD primitive API behavior
+    source: cryptography package installed in environment
+    sources: [https://cryptography.io/en/latest/]
+    applicability: "Primitive operations only; protocol composition is independently implemented"
+    status: checked-local
+    independent_check: public-key and bidirectional round-trip tests
+  - id: E-RFC5869
+    claim: HKDF-SHA256 expand output is bounded by 255 times the 32-octet hash output
+    source: https://www.rfc-editor.org/rfc/rfc5869
+    sources: [https://www.rfc-editor.org/rfc/rfc5869]
+    applicability: "HKDF-SHA256 output length; HPKE exporter length is additionally encoded as a two-octet integer"
+    sha256: 7a40eb3835b35fc947eb12a2ed614db079d43b26e50dbc537c31fba16397089c
+    status: verified-pinned-content
+    independent_check: "RFC 5869 Section 2.3; boundary tests at 8160 and 8161 octets"

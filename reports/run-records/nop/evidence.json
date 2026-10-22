@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "task_package_digest": "sha256:e3ecfc1c8753036425674b15c45cd6a6998b00d33004d2c76d2bf3cea26b9f39",
+  "job_id": "c979bdd6-467a-48ff-a48c-c44ac416abe1",
+  "control": "nop",
+  "requested_model": null,
+  "result_path": "reports/run-records/nop/result.json",
+  "result_sha256": "b44d8a6db0bd02af199e5d793e69c3148d70012250dedf5335b8278452c3c722",
+  "finished_at": "2026-10-22T12:32:51.515637"
+}

@@ -1,0 +1,74 @@
+task_id: e3-lab/hpke-x25519-context-engine
+status: candidate-static-only
+scenario: >-
+  A messaging service needs an interoperable HPKE context engine. The implementation
+  combines DHKEM, the HPKE key schedule, four credential modes, three AEAD identifiers
+  including export-only, and stateful record protection.
+deliverable: >-
+  Complete /app/hpke_engine.py with the specified sender/receiver setup functions,
+  Context API, and strict raw X25519 key serialization.
+public_contract:
+  profile: "DHKEM(X25519, HKDF-SHA256), HKDF-SHA256"
+  modes: [0, 1, 2, 3]
+  aeads: [1, 3, 65535]
+  exporter_max_length: 8160
+  failures: "ValueError for invalid inputs; failed open does not advance seq and leaves the receiver unusable"
+data_provenance:
+  kind: public_standard_vector_and_synthetic_cases
+  source: "RFC 9180 Appendix A.1; RFC 5869 HKDF-SHA256 output bound"
+  content_sha256: f45a8b7c30231b26d668b1e8168074e5ab514b174d656b67e859895117f1f8f6
+  synthetic_rule: "Deterministic key material and payloads derived inside tests; no production data"
+originality_checks:
+  prior_inventory: "outputs/cryptography-expert-pack/used_topics.yaml and existing E3 packages under outputs/"
+  overlap: "Search of this worktree found no other HPKE context task; signed-release and Noise tasks exercise distinct protocols and deliverables. Publicly published RFC vectors are attributed validation data, not a copied task."
+  source_boundary: "No upstream implementation, public task, or test harness is copied into the agent-visible image."
+expected_result_rationale: >-
+  RFC 9180 fixes the DHKEM context, labeled key schedule, exporter derivation,
+  mode binding and nonce construction. An RFC vector checks external interoperability;
+  per-mode and per-AEAD independent test groups check required public behavior and
+  failure boundaries. Each score group is attributable to an explicit instruction
+  requirement; weights sum to 1.000.
+credit:
+  scheme: independent behavior-group weighted partial credit
+  total: 1.0
+  weights:
+    T01-RFC-KEM-AEAD: 0.15
+    T02-RFC-KEY-SCHEDULE: 0.10
+    T03-BASE-INFO-BINDING: 0.07
+    T04-PSK-MODE: 0.08
+    T05-AUTH-MODE: 0.08
+    T06-AUTH-PSK-MODE: 0.08
+    T07-AES-GCM-CONTEXT: 0.06
+    T08-CHACHA-CONTEXT: 0.06
+    T09-EXPORT-ONLY: 0.08
+    T10-SEQUENCE-ORDER: 0.10
+    T11-FAIL-CLOSED: 0.07
+    T12-API-BOUNDARIES: 0.02
+    T13-AAD-BINDING: 0.03
+    T14-LOW-ORDER-DH: 0.02
+challenges:
+  - id: C1_DHKEM_AND_LABELED_SCHEDULE
+    reasoning_failure: "Incorrect suite identifiers, labels, context order, or X25519 encoding can remain locally consistent."
+    observable_symptom: "Published encapsulation, ciphertext, open result, or exporter output differs."
+    test_ids: [T01-RFC-KEM-AEAD, T02-RFC-KEY-SCHEDULE]
+    independent_validation: "RFC 9180 Appendix A.1 values and RFC 5869 HKDF output bound."
+  - id: C2_MODE_CREDENTIAL_BINDING
+    reasoning_failure: "Treating base, PSK, auth, and auth_psk as interchangeable or binding the wrong credentials."
+    observable_symptom: "One mode fails to interoperate, accepts an invalid credential set, or accepts the wrong sender/PSK identity."
+    test_ids: [T03-BASE-INFO-BINDING, T04-PSK-MODE, T05-AUTH-MODE, T06-AUTH-PSK-MODE]
+    independent_validation: "Separate per-mode sender/receiver cases with negative credential substitutions."
+  - id: C3_AEAD_EXPORT_SEPARATION
+    reasoning_failure: "Using an incorrect AEAD-specific schedule, treating export-only as a message cipher, or binding export output to mutable record state."
+    observable_symptom: "AEAD peers fail, export-only permits a message operation, or exporter output changes across record operations."
+    test_ids: [T07-AES-GCM-CONTEXT, T08-CHACHA-CONTEXT, T09-EXPORT-ONLY]
+    independent_validation: "Separate primitive-backed context interoperability and RFC HKDF length-bound checks."
+  - id: C4_SEQUENCE_AND_FAIL_CLOSED
+    reasoning_failure: "Advancing state at the wrong point or allowing reuse after failed authentication."
+    observable_symptom: "A record uses the wrong sequence-derived nonce, records fail in order, or a tampered record can be retried."
+    test_ids: [T10-SEQUENCE-ORDER, T11-FAIL-CLOSED]
+    independent_validation: "Ordered record exchange and tamper-then-retry on one receiver context."
+  - id: C5_INPUT_ROLE_AND_DH_BOUNDARIES
+    reasoning_failure: "Accepting ambiguous encodings, invalid API roles/credentials, low-order DH inputs, or unrelated setup transcripts."
+    observable_symptom: "Malformed inputs are accepted, wrong-role calls succeed, AAD mismatches decrypt, or low-order inputs are accepted."
+    test_ids: [T12-API-BOUNDARIES, T13-AAD-BINDING, T14-LOW-ORDER-DH]
+    independent_validation: "Public API negative matrix, associated-data mutation, and X25519 low-order rejection."

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "task_package_digest": "sha256:e3ecfc1c8753036425674b15c45cd6a6998b00d33004d2c76d2bf3cea26b9f39",
+  "job_id": "f2fc2d77-d8f1-4284-945a-d60dbc9948b8",
+  "control": "deepseek-v4-pro",
+  "requested_model": "deepseek/deepseek-v4-pro",
+  "result_path": "reports/run-records/deepseek-v4-pro/result.json",
+  "result_sha256": "412f7a3feb76bc7038c07883ea23a688176edb5d02e17a19caeae19d1431f460",
+  "finished_at": "2026-10-22T12:49:32.707118"
+}

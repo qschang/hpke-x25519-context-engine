@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "task_package_digest": "sha256:e3ecfc1c8753036425674b15c45cd6a6998b00d33004d2c76d2bf3cea26b9f39",
+  "job_id": "85fd0e2a-e85d-42c9-a961-10fd469fd4e1",
+  "control": "oracle",
+  "requested_model": null,
+  "result_path": "reports/run-records/oracle/result.json",
+  "result_sha256": "86b7c52889464b82016ecf35a206176b24882a3155c5adb4a7e18c473479b340",
+  "finished_at": "2026-10-22T12:32:01.959627"
+}
