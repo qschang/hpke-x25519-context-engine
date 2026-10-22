@@ -9,7 +9,7 @@ Prompt：这道题围绕一项消息服务的互操作改造展开。服务端�
 
 参考解相关思路：参考实现把协议组合逻辑与底层密码原语分开，使用维护中的密码学库处理 X25519 和 AEAD 运算，再按标准规定形成密钥材料、上下文和记录状态。它覆盖四种模式及两种消息保护算法，并对导出专用配置单独处理；输入检查、密钥编码、认证失败后的不可用状态也都落在同一个公开接口中。正确性不是靠参考实现自身的往返结果来证明，而是同时对照标准向量、导出值和独立状态断言。测试和参考实现仅供审核隔离使用，不会放入候选人运行环境。
 
-Harbor 包 Git 地址：待 GitHub 公开仓库创建后回填
-Harbor 包 commit ID：待冻结题包提交后回填
+Harbor 包 Git 地址：https://github.com/qschang/hpke-x25519-context-engine
+Harbor 包 commit ID：2d95d87863dece0c0ef6f9e1730d89cda1995a74（包含题包及三项 Harbor 评测证据的任务提交；登记稿随后单独提交）
 评测模型不可解证据：DeepSeek V4 Pro，得分 0.920；job `f2fc2d77-d8f1-4284-945a-d60dbc9948b8`；路径：reports/run-records/deepseek-v4-pro/result.json
 审核状态：待审核
